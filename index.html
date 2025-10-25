@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>🔱Ng Hùng Vương🔱 — Bio Neon v3.8-fix-qr</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --neon-cyan: #00ffd5;
+      --neon-blue: #3ec1ff;
+      --neon-purple: #8b5cff;
+      --glass: rgba(255,255,255,0.03);
+      --card-bg: rgba(4,6,14,0.6);
+      --accent: rgba(0,255,210,0.9);
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;font-family:Poppins,system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;background:#021018;color:#e9f6ff}
+    body{
+      background:
+        radial-gradient(1200px 600px at 10% 10%, rgba(0,255,210,0.04), transparent 8%),
+        radial-gradient(900px 400px at 90% 90%, rgba(60,140,255,0.03), transparent 8%),
+        linear-gradient(120deg,#051021 0%, #031a2b 40%, #07112a 100%);
+      -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+      overflow-y: auto;
+    }
+
+    .grid-pattern{
+      position:fixed;inset:0;z-index:0;pointer-events:none;
+      background-image:
+        linear-gradient(90deg, rgba(0,255,210,0.02) 1px, transparent 1px),
+        linear-gradient(rgba(0,255,210,0.02) 1px, transparent 1px);
+      background-size: 120px 120px, 120px 120px;
+      mix-blend-mode: overlay; opacity:0.6; filter: blur(6px);
+    }
+
+    .wrap{position:relative;z-index:2;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:28px}
+    .card{
+      width:100%;max-width:420px;padding:22px;border-radius:18px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border:1px solid rgba(0,255,210,0.06); box-shadow:0 10px 40px rgba(2,10,25,0.6);
+      text-align:center; position:relative; overflow:visible;backdrop-filter: blur(6px);
+    }
+
+    .clock{display:inline-block;font-size:13px;padding:6px 10px;border-radius:999px;margin-bottom:12px;color:#dffcff;background:rgba(255,255,255,0.02);box-shadow:0 6px 18px rgba(0,0,0,0.35)}
+
+    .avatar-wrap{position:relative;width:150px;height:150px;margin:14px auto 10px}
+    .avatar{
+      width:150px;height:150px;border-radius:50%;
+      background-image: url('https://i.ibb.co/GQtRF0zL/IMG-20251025-143659.jpg');
+      background-size:cover;background-position:center;
+      border:3px solid rgba(0,255,210,0.12); box-shadow:0 6px 34px rgba(0,255,210,0.08);
+      position:relative;overflow:hidden; transition:transform .35s cubic-bezier(.2,.9,.2,1);
+    }
+    .avatar::after{
+      content:"";position:absolute;top:0;left:-50%;width:48%;height:100%;transform:skewX(-20deg);
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.95), transparent);
+      mix-blend-mode:screen; opacity:0.25; filter: blur(10px); animation: streak 3.6s linear infinite;
+      pointer-events:none;
+    }
+    @keyframes streak{0%{left:-60%;opacity:0.12}40%{left:120%;opacity:0.9}100%{left:120%;opacity:0}}
+    .avatar:hover{transform:scale(1.03)}
+
+    .name{font-family:'Orbitron',sans-serif;font-size:20px;margin:8px 0 6px;letter-spacing:0.6px;
+      background: linear-gradient(90deg,#a7ffd7,#5be1ff,#c8a8ff); -webkit-background-clip:text; background-clip:text;color:transparent;display:inline-block;position:relative}
+    .name::after{content:"";position:absolute;left:-20%;top:30%;width:40%;height:18%;background:linear-gradient(90deg, rgba(255,255,255,0.4), rgba(255,255,255,0.85), rgba(255,255,255,0.15));transform:skewX(-25deg);filter:blur(8px);opacity:0;animation:name-streak 6s linear infinite}
+    @keyframes name-streak{0%{left:-40%;opacity:0}35%{left:120%;opacity:0.6}60%{opacity:0.1}100%{left:120%;opacity:0}}
+
+    .subtitle{font-size:12px;color:rgba(230,250,255,0.72);margin-bottom:12px}
+
+    .actions{display:flex;flex-direction:column;gap:12px;align-items:center;margin-top:8px}
+    .row{display:flex;gap:10px}
+    .btn{
+      position:relative;display:inline-flex;align-items:center;gap:10px;padding:10px 16px;border-radius:999px;
+      border:1px solid rgba(255,255,255,0.06); background:linear-gradient(90deg, rgba(0,255,210,0.06), rgba(60,140,255,0.04));
+      color:#e9fbf7;font-weight:600;font-size:14px;cursor:pointer; box-shadow:0 8px 22px rgba(0,0,0,0.45);
+      overflow:hidden; transition: transform .22s ease, box-shadow .22s ease;
+    }
+    .btn svg{width:18px;height:18px;opacity:0.96}
+    .btn:hover{ transform:translateY(-4px); box-shadow:0 14px 34px rgba(0,0,0,0.55), 0 0 40px rgba(0,255,210,0.12) }
+
+    .btn::before{ content:""; position:absolute; inset:0; border-radius:999px; pointer-events:none; box-shadow:0 0 18px rgba(0,255,210,0.06); transition: box-shadow .22s ease }
+    .btn:hover::before{ box-shadow:0 0 32px rgba(0,255,210,0.12) }
+
+    .socials{display:flex;gap:10px;justify-content:center;margin-top:14px}
+    .socials a{font-size:13px;padding:8px 12px;border-radius:10px;text-decoration:none;background:rgba(255,255,255,0.02);color:rgba(220,255,250,0.95);border:1px solid rgba(255,255,255,0.03)}
+    .socials a:hover{ box-shadow:0 6px 18px rgba(0,255,210,0.06); transform:translateY(-3px) }
+
+    .overlay{position:fixed;inset:0;background:rgba(2,6,12,0.7);display:flex;align-items:center;justify-content:center;z-index:10;visibility:hidden;opacity:0;transition:opacity .22s ease;padding:20px}
+    .overlay.active{visibility:visible;opacity:1}
+    .popup{
+      width:100%; max-width:720px; border-radius:14px; padding:18px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.015));
+      border:1px solid rgba(0,255,210,0.06); box-shadow:0 20px 60px rgba(3,10,20,0.7);
+      display:flex; gap:18px; align-items:flex-start; position:relative; overflow:hidden;
+      max-height: 90vh;
+    }
+
+    .popup .left{flex:0 0 320px; max-width:320px}
+    .popup img{ width:100%; border-radius:10px; display:block; box-shadow:0 10px 40px rgba(0,0,0,0.6), 0 0 26px rgba(0,255,210,0.06); max-height: 86vh; object-fit: contain }
+    .popup .right{flex:1;padding:6px 4px; overflow:auto; max-height:86vh}
+
+    .popup h3{ margin:6px 0 8px;color:#cffff7;font-size:16px }
+    .info-row{ display:flex; align-items:center; justify-content:space-between; gap:8px; margin:8px 0; padding:8px 10px; border-radius:10px;
+       background: rgba(0,0,0,0.25); border:1px solid rgba(255,255,255,0.02) }
+
+    .label{ font-size:13px; color:#dffcff; text-align:left; flex:1; word-break:break-all }
+
+    .copy-btn{
+      display:inline-flex; align-items:center; justify-content:center;
+      width:36px; height:36px; border-radius:10px; border:0; cursor:pointer;
+      background: linear-gradient(135deg, rgba(0,255,210,0.06), rgba(60,140,255,0.04));
+      box-shadow: 0 6px 18px rgba(0,0,0,0.45);
+      transition: transform .12s ease, box-shadow .12s ease, background .12s ease;
+      position:relative; color:var(--neon-cyan); font-weight:700;
+    }
+    .copy-btn svg{width:18px;height:18px;display:block}
+    .copy-btn:hover{ transform: translateY(-3px); box-shadow: 0 12px 28px rgba(0,255,210,0.12); filter:brightness(1.15) }
+    .copy-btn.active{ background: linear-gradient(135deg, rgba(0,255,210,0.14), rgba(0,255,210,0.06)); box-shadow:0 12px 34px rgba(0,255,210,0.28); color:#011016 }
+
+    .close-x{ position:absolute; top:12px; right:12px; background:transparent; border:0; color:#cfeff2; font-size:22px; cursor:pointer }
+
+    @media (max-width:720px){
+      .card{ padding:16px; max-width:92% }
+      .avatar{ width:120px; height:120px }
+      .avatar-wrap{ width:120px; height:120px }
+      .popup{ max-width:94%; padding:14px; flex-direction:column }
+      .popup .left{ max-width:100%; flex: 0 0 auto }
+      .popup img{ max-height:50vh }
+      .popup .right{ max-height: 50vh }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="grid-pattern" aria-hidden="true"></div>
+  <canvas id="particles" style="position:fixed;inset:0;z-index:1;pointer-events:none"></canvas>
+
+  <div class="wrap">
+    <div class="card" role="main" aria-label="Bio card">
+      <div class="clock" id="clock" aria-live="polite">--/--/---- — --:--:--</div>
+
+      <div class="avatar-wrap" aria-hidden="true">
+        <div class="avatar" id="avatar"></div>
+      </div>
+
+      <div class="name" id="name">🔱Ng Hùng Vương🔱</div>
+      <div class="subtitle">Admin 99Night • Game Services • Cày thuê</div>
+
+      <div class="actions" style="margin-top:14px">
+        <button class="btn" id="btnPrice" title="Xem bảng giá">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 7h18" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M3 12h18" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M3 17h18" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+          <span>📜 Bảng giá Blox Fruit</span>
+        </button>
+
+        <div class="row" style="margin-top:4px">
+          <button class="btn" id="btnBank" title="Thông tin Bank">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 11l9-6 9 6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M21 20H3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+            <span>🏦 Thông tin Bank</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="socials" role="navigation" aria-label="Liên kết mạng xã hội" style="margin-top:18px">
+        <a href="https://t.me/hvuongc" target="_blank" rel="noopener">Telegram</a>
+        <a href="https://zalo.me/0359362251" target="_blank" rel="noopener">Zalo</a>
+        <a href="https://www.facebook.com/share/1DMXXfgceu/" target="_blank" rel="noopener">Facebook</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="overlay" id="overlay" aria-hidden="true">
+    <div class="popup" role="dialog" aria-modal="true" aria-labelledby="popupTitle">
+      <button class="close-x" id="closePopup" aria-label="Đóng">✕</button>
+
+      <div class="left">
+        <img id="popupImg" src="" alt="Hình hiển thị">
+      </div>
+
+      <div class="right">
+        <h3 id="popupTitle">Thông tin</h3>
+
+        <div id="priceBlock" style="display:none"></div>
+
+        <div id="bankBlock" style="display:none">
+          <p style="color:#cffff7;margin-bottom:6px;font-size:14px">Quét mã hoặc sao chép thông tin bên dưới</p>
+
+          <div class="info-row">
+            <div class="label"><strong>Ngân hàng:</strong> BIDV</div>
+            <button class="copy-btn" data-copy="Ngân hàng: BIDV" title="Sao chép ngân hàng" aria-label="Sao chép ngân hàng">
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="9" y="2" width="8" height="4" rx="1.2" stroke="currentColor" stroke-width="1.6"/><rect x="5" y="6" width="12" height="14" rx="2" stroke="currentColor" stroke-width="1.6"/></svg>
+            </button>
+          </div>
+
+          <div class="info-row">
+            <div class="label" id="accNumber"><strong>Số tài khoản:</strong> 8896793825</div>
+            <button class="copy-btn" data-copy="8896793825" title="Sao chép số tài khoản" aria-label="Sao chép số tài khoản">
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="9" y="2" width="8" height="4" rx="1.2" stroke="currentColor" stroke-width="1.6"/><rect x="5" y="6" width="12" height="14" rx="2" stroke="currentColor" stroke-width="1.6"/></svg>
+            </button>
+          </div>
+
+          <div class="info-row">
+            <div class="label" id="accName"><strong>Chủ tài khoản:</strong> NGUYEN HUNG VUONG</div>
+            <button class="copy-btn" data-copy="NGUYEN HUNG VUONG" title="Sao chép tên chủ tài khoản" aria-label="Sao chép tên chủ tài khoản">
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="9" y="2" width="8" height="4" rx="1.2" stroke="currentColor" stroke-width="1.6"/><rect x="5" y="6" width="12" height="14" rx="2" stroke="currentColor" stroke-width="1.6"/></svg>
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <button class="music-toggle" id="musicToggle" aria-pressed="false" title="Bật/Tắt nhạc (chạm vào trang để tự phát)" style="position:fixed;right:18px;bottom:18px;z-index:6;width:52px;height:52px;border-radius:12px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,rgba(3,18,31,0.8),rgba(2,12,22,0.6));border:1px solid rgba(0,255,210,0.08);box-shadow:0 8px 30px rgba(0,0,0,0.6);cursor:pointer">
+    <svg id="musicIcon" viewBox="0 0 24 24" fill="none"><path d="M9 17V5l12-2v12" stroke="#aefbf0" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M6 18c0 1.657 1.567 3 3.5 3S13 19.657 13 18" stroke="#aefbf0" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </button>
+
+  <audio id="bgAudio" src="https://files.catbox.moe/byvoir.mp3" preload="auto" loop></audio>
+
+  <script>
+    const clockEl = document.getElementById('clock');
+    function updateClock(){
+      const now = new Date();
+      const d = String(now.getDate()).padStart(2,'0');
+      const m = String(now.getMonth()+1).padStart(2,'0');
+      const y = now.getFullYear();
+      const hh = String(now.getHours()).padStart(2,'0');
+      const mm = String(now.getMinutes()).padStart(2,'0');
+      const ss = String(now.getSeconds()).padStart(2,'0');
+      clockEl.textContent = `${d}/${m}/${y} — ${hh}:${mm}:${ss}`;
+    }
+    updateClock(); setInterval(updateClock,1000);
+
+    const overlay = document.getElementById('overlay');
+    const popupImg = document.getElementById('popupImg');
+    const popupTitle = document.getElementById('popupTitle');
+    const priceBlock = document.getElementById('priceBlock');
+    const bankBlock = document.getElementById('bankBlock');
+    const closePopupBtn = document.getElementById('closePopup');
+
+    // image links
+    const priceImage = 'https://i.ibb.co/mV0yC93G/D-n-m-i-2-F0-C8-E35.png';
+    const qrImage = 'https://i.ibb.co/SDMD7mqL/BIDV-1761306355980.jpg';
+
+    document.getElementById('btnPrice').addEventListener('click', () => openPopupType('price'));
+    document.getElementById('btnBank').addEventListener('click', () => openPopupType('bank'));
+
+    function openPopupType(type){
+      priceBlock.style.display = 'none';
+      bankBlock.style.display = 'none';
+      popupTitle.textContent = '';
+      popupImg.src = '';
+
+      // cache-bust: append timestamp so browser requests fresh image every open
+      const ts = Date.now();
+      if(type === 'price'){
+        popupTitle.textContent = 'Bảng giá Blox Fruit';
+        popupImg.src = priceImage + '?v=' + ts;
+        priceBlock.style.display = 'block';
+      } else if(type === 'bank'){
+        popupTitle.textContent = 'Thông tin Bank';
+        popupImg.src = qrImage + '?v=' + ts;
+        bankBlock.style.display = 'block';
+      }
+
+      overlay.classList.add('active');
+      overlay.setAttribute('aria-hidden','false');
+      document.documentElement.style.overflow = 'hidden';
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closePopup(){
+      overlay.classList.remove('active');
+      overlay.setAttribute('aria-hidden','true');
+      popupImg.src = ''; // clear src to free memory and force reload next time
+      document.documentElement.style.overflow = '';
+      document.body.style.overflow = '';
+    }
+
+    closePopupBtn.addEventListener('click', closePopup);
+    overlay.addEventListener('click', (e) => { if(e.target === overlay) closePopup(); });
+    document.addEventListener('keydown', (e) => { if(e.key === 'Escape') closePopup(); });
+
+    document.querySelectorAll('.copy-btn').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        const text = btn.getAttribute('data-copy') || '';
+        try {
+          await navigator.clipboard.writeText(text);
+          btn.classList.add('active');
+          const origInner = btn.innerHTML;
+          btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="#001414" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+          setTimeout(()=>{ btn.classList.remove('active'); btn.innerHTML = origInner; }, 1100);
+        } catch(err){
+          alert('Trình duyệt không cho phép sao chép — hãy sao chép thủ công.');
+        }
+      });
+    });
+
+    const audio = document.getElementById('bgAudio');
+    const musicToggle = document.getElementById('musicToggle');
+    let musicStarted = false;
+    function startMusicIfNeeded(){
+      if(!musicStarted){
+        audio.play().catch(()=>{ });
+        musicToggle.classList.add('on');
+        musicToggle.setAttribute('aria-pressed','true');
+        musicStarted = true;
+      }
+    }
+    function onceStart(){ startMusicIfNeeded(); document.body.removeEventListener('pointerdown', onceStart); }
+    document.body.addEventListener('pointerdown', onceStart);
+    musicToggle.addEventListener('click', (e)=>{
+      e.stopPropagation();
+      if(audio.paused){ audio.play().catch(()=>{}); musicToggle.classList.add('on'); musicToggle.setAttribute('aria-pressed','true'); }
+      else { audio.pause(); musicToggle.classList.remove('on'); musicToggle.setAttribute('aria-pressed','false'); }
+    });
+
+    const canvas = document.getElementById('particles'), ctx = canvas.getContext('2d');
+    let W = canvas.width = innerWidth, H = canvas.height = innerHeight;
+    window.addEventListener('resize', ()=>{ W = canvas.width = innerWidth; H = canvas.height = innerHeight; });
+
+    const particles = [];
+    const PARTICLE_COUNT = Math.max(40, Math.floor((W*H)/100000));
+    class P { constructor(){ this.reset(true) } reset(init=false){ this.x = Math.random()*W; this.y = init ? Math.random()*H : -10 - Math.random()*80; this.r = Math.random()*1.8 + 0.6; this.vy = 0.3 + Math.random()*1.0; this.alpha = 0.12 + Math.random()*0.6; this.h = 180 + Math.random()*80 } step(){ this.y += this.vy; if(this.y > H + 20) this.reset(false) } draw(){ ctx.beginPath(); ctx.fillStyle = `hsla(${this.h}, 90%, 60%, ${this.alpha})`; ctx.arc(this.x, this.y, this.r, 0, Math.PI*2); ctx.fill(); } }
+    for(let i=0;i<PARTICLE_COUNT;i++) particles.push(new P());
+    (function loop(){ ctx.clearRect(0,0,W,H); for(const p of particles){ p.step(); p.draw(); } requestAnimationFrame(loop); })();
+    const avatar = document.getElementById('avatar');
+    avatar.addEventListener('mouseenter', ()=> avatar.style.transform = 'scale(1.04)');
+    avatar.addEventListener('mouseleave', ()=> avatar.style.transform = '');
+    console.log('Bio Neon v3.8-fix-qr ready — 🔱Ng Hùng Vương🔱');
+  </script>
+</body>
+</html>
